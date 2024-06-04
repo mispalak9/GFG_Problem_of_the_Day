@@ -1,0 +1,10 @@
+#User function Template for python3
+class Solution:
+	def binaryNextNumber(self, s):
+		# code here
+        # Convert binary string to integer
+        n = int(s, 2)
+        # Increment the integer
+        n += 1
+        # Convert the integer back to binary string without the '0b' prefix
+        return bin(n)[2:]
