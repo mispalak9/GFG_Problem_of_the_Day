@@ -1,15 +1,14 @@
-from typing import List
-
 class Solution:
-    def constructList(self, q : int, queries : List[List[int]]) -> List[int]:
+    def oddEven(self, s : str) -> str:
         # code here
-        s = [0]
-        xor_sum = 0
-        for query in queries:
-            if query[0] == 0:
-                s.append(query[1] ^ xor_sum)
-            else:
-                xor_sum ^= query[1]
-        s = [x ^ xor_sum for x in s]
-        s.sort()
-        return s
+        x = y = 0
+        freq = [0] * 26
+        for char in s:
+            freq[ord(char) - ord('a')] += 1
+        for i in range(26):
+            if (i + 1) % 2 == 0 and freq[i] % 2 == 0 and freq[i] > 0:
+                x += 1
+            elif (i + 1) % 2 == 1 and freq[i] % 2 == 1:
+                y += 1
+        return "EVEN" if (x + y) % 2 == 0 else "ODD"
+        
