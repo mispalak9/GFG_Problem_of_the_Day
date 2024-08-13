@@ -1,0 +1,26 @@
+#User function Template for python3
+
+
+#Complete this function
+class Solution:
+    def floorSqrt(self, n): 
+    #Your code here
+        if n < 2:
+            return n  # The floor of the square root of 0 or 1 is the number itself
+        
+        left, right = 1, n // 2  # Start with the range from 1 to n/2
+        result = 0
+        
+        while left <= right:
+            mid = (left + right) // 2  # Find the middle point
+            mid_squared = mid * mid
+            
+            if mid_squared == n:
+                return mid  # Perfect square case
+            elif mid_squared < n:
+                result = mid  # Update result to the current mid
+                left = mid + 1  # Move to the right half
+            else:
+                right = mid - 1  # Move to the left half
+        
+        return result  # Return the floor value of the square root
