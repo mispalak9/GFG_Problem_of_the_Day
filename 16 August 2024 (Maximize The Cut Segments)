@@ -1,0 +1,16 @@
+class Solution:
+    def maximizeTheCuts(self, n, x, y, z):
+        # Create a dp array to store the maximum number of cuts
+        dp = [-float('inf')] * (n + 1)
+        dp[0] = 0  # Base case: no cuts needed for length 0
+        
+        for i in range(1, n + 1):
+            if i >= x:
+                dp[i] = max(dp[i], dp[i - x] + 1)
+            if i >= y:
+                dp[i] = max(dp[i], dp[i - y] + 1)
+            if i >= z:
+                dp[i] = max(dp[i], dp[i - z] + 1)
+        
+        # If dp[n] is still -inf, it means we can't cut the segment as required
+        return max(dp[n], 0)
