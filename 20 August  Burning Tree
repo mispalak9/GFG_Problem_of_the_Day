@@ -1,0 +1,61 @@
+class Solution:
+    def minTime(self, root, target):
+        if not root:
+            return 0
+        
+        # Step 1: Create a parent map while finding the target node.
+        parent_map = {}
+        target_node = self.buildParentMap(root, None, parent_map, target)
+        
+        # Step 2: BFS to calculate the time to burn the tree.
+        return self.burnTree(target_node, parent_map)
+    
+    def buildParentMap(self, node, parent, parent_map, target):
+        if not node:
+            return None
+        parent_map[node] = parent
+        if node.data == target:
+            target_node = node
+        else:
+            target_node = self.buildParentMap(node.left, node, parent_map, target)
+            if not target_node:  # If target is not found on the left, search on the right
+                target_node = self.buildParentMap(node.right, node, parent_map, target)
+        return target_node
+    
+    def burnTree(self, target_node, parent_map):
+        from collections import deque
+        
+        queue = deque([target_node])
+        visited = set([target_node])
+        time = 0
+        
+        while queue:
+            size = len(queue)
+            any_burned = False
+            
+            for _ in range(size):
+                current = queue.popleft()
+                
+                # Check and enqueue left child
+                if current.left and current.left not in visited:
+                    queue.append(current.left)
+                    visited.add(current.left)
+                    any_burned = True
+                
+                # Check and enqueue right child
+                if current.right and current.right not in visited:
+                    queue.append(current.right)
+                    visited.add(current.right)
+                    any_burned = True
+                
+                # Check and enqueue parent node
+                parent = parent_map.get(current)
+                if parent and parent not in visited:
+                    queue.append(parent)
+                    visited.add(parent)
+                    any_burned = True
+            
+            if any_burned:
+                time += 1
+        
+        return time
