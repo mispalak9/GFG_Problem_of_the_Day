@@ -1,0 +1,27 @@
+from collections import deque
+
+class Solution:
+    def shortestPath(self, edges, n, m, src):
+        # Create adjacency list
+        adj = [[] for _ in range(n)]
+        for u, v in edges:
+            adj[u].append(v)
+            adj[v].append(u)
+        
+        # Initialize distances with -1
+        distances = [-1] * n
+        distances[src] = 0
+        
+        # BFS queue initialization
+        queue = deque([src])
+        
+        while queue:
+            node = queue.popleft()
+            
+            # Traverse neighbors
+            for neighbor in adj[node]:
+                if distances[neighbor] == -1:  # If not visited
+                    distances[neighbor] = distances[node] + 1
+                    queue.append(neighbor)
+        
+        return distances
